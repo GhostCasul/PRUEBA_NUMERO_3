@@ -21,7 +21,9 @@ def Menu():
         elif Menu == "4":
             Eliminar()
         elif Menu == "5":
-            print("Se elimino el DNI")
+            print("Saliste del programa")
+            print("Gracias por preferir la web de:")
+            print("LucasMarchant_PGY1121_004V")
             break
         else:
             print("Opcion incorrecta, reintentar")
