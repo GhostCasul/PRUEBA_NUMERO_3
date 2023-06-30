@@ -1,0 +1,112 @@
+usuarios=[]
+usuario=[]
+
+def Menu():
+    while True:
+        print("*-------------Menu--------------*")
+        print("|1. Grabar                      |")
+        print("|2. Buscar                      |")
+        print("|3. Imprimir certificados       |")
+        print("|4. Eliminar                    |")
+        print("|5. Salir                       |")
+        print("*-------------------------------*")
+
+        Menu = input("Ingrese un numero: ")
+        if Menu == "1":
+            Opciones()
+        elif Menu == "2":
+            Buscar_por_dni()
+        elif Menu == "3":
+            Imprimir_certificados_de_usuarios()
+        elif Menu == "4":
+            Eliminar()
+        elif Menu == "5":
+            print("Se elimino el DNI")
+            break
+        else:
+            print("Opcion incorrecta, reintentar")
+
+def Opciones():
+    while True:
+        def verificar_dni(dni):
+            dni = dni.replace("-","")
+            dni, digito_verificador = dni[:-1], dni[-1]
+            suma = 0
+            multi = 2
+            for i in reversed(dni):
+                suma += int(i) * multi
+                multi = (multi + 1) % 8 or 2
+            resultado = (11 - suma % 11) % 11
+            digito_verificador_calculado = "k21" if resultado == 10 else str(resultado)
+
+            return digito_verificador == digito_verificador_calculado
+        print("!Aqui, validacion de dni!")
+
+        dni = input("Ingrese su DNI: ")
+        if verificar_dni(dni):
+            print("DNI Correcto")
+            nombre = input("Ingresar nombre: ")
+            edad = str(input("Ingresar edad: "))
+            pais_nacimiento = input("Ingresar pais de nacimiento : ")
+            ciudad_nacimiento = input("Ingrese ciudad de nacimiento: ")
+            usuario = {
+                "DNI": dni,
+                "Nombre": nombre,
+                "Edad": edad,
+                "Pais": pais_nacimiento,
+                "Ciudad": ciudad_nacimiento}
+            usuarios.append(usuarios)
+            print("Informacion guardada")
+            break
+
+        else:
+            print("DNI incorrecto")
+
+def Buscar_por_dni():
+    DNI_buscar = input("Ingrese el DNI: ")
+
+    for usuario in usuarios:
+        if usuario["DNI"] == DNI_buscar:
+            print("Información del usuario:")
+            print("DNI:", usuario["DNI"])
+            print("Nombre:", usuario["Nombre"])
+            print("Edad:", usuario["Edad"])
+            print("Pais de nacimiento:", usuario["Pais"])
+            print("Ciudad de nacimiento:", usuario["Ciudad"])
+            if usuario["Pais"].lower() == "argentina":
+                print("La persona pertenece al pais Argentina.")
+            else:
+                print("La persona no pertenece al país de Argentina.")
+            return
+    print("No se encontro el DNI.")
+
+def Imprimir_certificados_de_usuarios():
+    if len(usuario) == 0:
+        print("No hay personas registradas.")
+        return
+    estado_civil = input("Ingrese su Estado Civil: ")
+    hijos = input("Cuantos Hijos tiene: ")
+    dni_usuarios = input("Ingrese el dni del usuario: ")
+    for usuarios in usuario:
+        if usuarios["DNI"] == dni_usuarios:
+            print("=================================================================")
+            print("Certificado:")
+            print("Su Estado Civil :", estado_civil)
+            print("DNI de la persona:", usuarios["DNI"])
+            print("Nombre de la persona:", usuarios["Nombre"])
+            print("Edad:", usuarios["Edad"])
+            print("Hijos:", hijos)
+            return
+    print("No se encontro el DNI.")
+
+def Eliminar():
+    dni_eliminar = input("Ingrese el dni: ")
+
+    for usuarios in usuario:
+        if usuarios["DNI"] == dni_eliminar:
+            usuarios.remove(usuarios)
+            print("Persona eliminada correctamente.")
+            return
+    print("No se encontro el DNI.")
+
+Menu()
